@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd"
+        start-state="home">
+
+    <!--В flow можно создавать переменные-->
+    <var name="user" class="main.java.pojo.User"/>
+
+    <view-state id="home" view="template" model="user">
+        <transition on="checkUser" to="checkUser"/>
+        <!--<transition on="nextState" to="nextState"/>-->
+    </view-state>
+
+    <action-state id="checkUser">
+        <evaluate expression="userService.checkUser(user)"/>
+
+        <transition on="success" to="nextState"/>
+        <transition on="failure" to="home"/>
+    </action-state>
+
+    <view-state id="nextState" view="template" >
+        <transition on="toHomeState" to="home"/>
+        <transition on="toEndState" to="endState"/>
+    </view-state>
+
+
+    <end-state id="endState" view="template"/>
+
+</flow>
